@@ -3,29 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Virtual Mouse</title>
+  <title>You Are Hacked!</title>
   <style>
     /* Body styling */
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
+      background-color: black;
+      color: red;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
       height: 100vh;
-    }
-
-    /* Hindi message styling */
-    .hindi-message {
-      color: red;
-      font-size: 30px;
-      text-align: center;
-      margin: 20px;
-      max-width: 90%; /* Ensure text wraps on smaller screens */
-      line-height: 1.5;
+      overflow: hidden;
     }
 
     /* Hidden overlay for the pop-up */
@@ -36,115 +27,89 @@
       width: 100%;
       height: 100%;
       background-color: rgba(0, 0, 0, 0.7);
-      display: none;
+      display: flex;
       justify-content: center;
       align-items: center;
       z-index: 10;
+      flex-direction: column;
+      animation: fadeIn 2s ease-in-out;
     }
 
     /* Pop-up message box styling */
     .popup {
-      background-color: white;
+      background-color: red;
+      color: black;
       padding: 30px;
       border-radius: 10px;
       text-align: center;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      font-size: 30px;
+      font-weight: bold;
+      animation: zoomIn 1s ease;
+      margin: 10px;
     }
 
-    /* Close button styling */
-    .popup button {
-      background-color: #ff4d4d;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .popup button:hover {
-      background-color: #ff0000;
-    }
-
-    /* Button to trigger the pop-up */
-    .trigger-button {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 15px 30px;
-      font-size: 18px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .trigger-button:hover {
-      background-color: #45a049;
-    }
-
-    /* Highlight effect for any element when clicked */
-    .highlight {
-      outline: 3px solid red;
-      animation: highlightAnimation 0.5s ease;
-    }
-    
-    @keyframes highlightAnimation {
+    /* Animation for pop-up zoom */
+    @keyframes zoomIn {
       from {
-        outline-color: orange;
+        transform: scale(0);
       }
       to {
-        outline-color: red;
+        transform: scale(1);
       }
+    }
+
+    /* Animation for overlay fade-in */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Automatically close after 5 seconds */
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
-
-  <!-- Hindi message at the top -->
-  <div class="hindi-message">
-    हेलो मिस्टर रवि यादव, सुनने में आ रहा है कि 
-    तुम्हारी जॉब लग गयी है, इस वजह से फ़ोन नहीं उठा 
-    रहे हो। इस वजह से ये मैसेज हमने वेबसाइट के ज़रिए भेजा है।
-    <br><br>
-    प्लीज यार मेरी भी लगवा दो, हम्बल request!
-  </div>
-
-  <!-- Button to trigger the pop-up -->
-  <button class="trigger-button" onclick="showPopup()">Press to start virtual mouse</button>
-
   <!-- Overlay that pops up -->
   <div class="overlay" id="popupOverlay">
-    <div class="popup">
-      <h2>This website is under maintenance</h2>
-      <button onclick="closePopup()">Close</button>
-    </div>
+    <div class="popup">YOU ARE HACKED!</div>
+    <div class="popup">YOUR SYSTEM IS COMPROMISED!</div>
+    <div class="popup">SECURITY BREACH DETECTED!</div>
+    <div class="popup">ALL YOUR DATA IS AT RISK!</div>
   </div>
 
   <script>
-    // Function to show the pop-up
+    // Function to trigger automatic pop-ups without user clicks
     function showPopup() {
-      // Highlight the clicked element
-      const triggerButton = document.querySelector(".trigger-button");
-      triggerButton.classList.add("highlight");
-
-      // Display the overlay
       const popupOverlay = document.getElementById("popupOverlay");
-      popupOverlay.style.display = "flex";
 
-      // Remove the highlight after 0.5 seconds
+      // Array of multiple popup messages
+      const popups = document.querySelectorAll('.popup');
+      let delay = 1000; // Delay between pop-ups
+
+      // Show each pop-up message one after the other
+      popups.forEach((popup, index) => {
+        setTimeout(() => {
+          popup.style.display = 'block';
+        }, delay * index);
+      });
+
+      // Automatically hide the overlay after 10 seconds
       setTimeout(() => {
-        triggerButton.classList.remove("highlight");
-      }, 500);
+        popupOverlay.classList.add('hidden');
+      }, 10000); // Close after 10 seconds
     }
 
-    // Function to close the pop-up and reload the page
-    function closePopup() {
-      const popupOverlay = document.getElementById("popupOverlay");
-      popupOverlay.style.display = "none";
-
-      // Redirect to the initial phase (reload the page)
-      window.location.reload();
-    }
+    // Run the pop-up function immediately after the page loads
+    window.onload = function() {
+      showPopup();
+    };
   </script>
 </body>
 </html>
