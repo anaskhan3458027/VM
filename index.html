@@ -3,65 +3,148 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Virtul Mouse </title>
+  <title>Virtual Mouse</title>
   <style>
-    /* Style for the whole body */
+    /* Body styling */
     body {
       margin: 0;
       padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       height: 100vh;
-      background-color: #f0f0f0;
-      font-family: Arial, sans-serif;
     }
 
-    /* Container for the poster */
-    .poster-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-gap: 20px;
-      padding: 20px;
-      width: 80%;
-    }
-
-    /* Each item in the poster */
-    .poster-item {
-      background-color: #ddd;
-      padding: 40px;
-      text-align: center;
+    /* Hindi message styling */
+    .hindi-message {
+      color: red;
       font-size: 20px;
+      text-align: center;
+      margin: 20px;
+      max-width: 90%; /* Ensure text wraps on smaller screens */
+      line-height: 1.5;
+    }
+
+    /* Hidden overlay for the pop-up */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    /* Pop-up message box styling */
+    .popup {
+      background-color: white;
+      padding: 30px;
       border-radius: 10px;
-      transition: transform 0.4s, background-color 0.3s, font-size 0.3s;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Close button styling */
+    .popup button {
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
       cursor: pointer;
     }
 
-    /* Highlight and enlarge on hover */
-    .poster-item:hover {
-      transform: scale(1.2);
-      background-color: #ffcd05;
-      font-size: 25px;
+    .popup button:hover {
+      background-color: #ff0000;
     }
 
-    /* Enlarge and highlight on click */
-    .poster-item:active {
-      transform: scale(1.5);
-      background-color: #ff9505;
-      font-size: 30px;
+    /* Button to trigger the pop-up */
+    .trigger-button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .trigger-button:hover {
+      background-color: #45a049;
+    }
+
+    /* Highlight effect for any element when clicked */
+    .highlight {
+      outline: 3px solid red;
+      animation: highlightAnimation 0.5s ease;
+    }
+    
+    @keyframes highlightAnimation {
+      from {
+        outline-color: orange;
+      }
+      to {
+        outline-color: red;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="poster-container">
-    <div class="poster-item">Item 1</div>
-    <div class="poster-item">Item 2</div>
-    <div class="poster-item">Item 3</div>
-    <div class="poster-item">Item 4</div>
-    <div class="poster-item">Item 5</div>
-    <div class="poster-item">Item 6</div>
+  <!-- Hindi message at the top -->
+  <div class="hindi-message">
+    हेलो मिस्टर रवि यादव, सुनने में आ रहा है कि 
+    तुम्हारी जॉब लग गयी है, इस वजह से फ़ोन नहीं उठा 
+    रहे हो। इस वजह से ये मैसेज हमने वेबसाइट के ज़रिए भेजा है।
+    <br><br>
+    प्लीज यार मेरी भी लगवा दो, हम्बल request!
   </div>
 
+  <!-- Button to trigger the pop-up -->
+  <button class="trigger-button" onclick="showPopup()">Press to start virtual mouse</button>
+
+  <!-- Overlay that pops up -->
+  <div class="overlay" id="popupOverlay">
+    <div class="popup">
+      <h2>This website is under maintenance</h2>
+      <button onclick="closePopup()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Function to show the pop-up
+    function showPopup() {
+      // Highlight the clicked element
+      const triggerButton = document.querySelector(".trigger-button");
+      triggerButton.classList.add("highlight");
+
+      // Display the overlay
+      const popupOverlay = document.getElementById("popupOverlay");
+      popupOverlay.style.display = "flex";
+
+      // Remove the highlight after 0.5 seconds
+      setTimeout(() => {
+        triggerButton.classList.remove("highlight");
+      }, 500);
+    }
+
+    // Function to close the pop-up and reload the page
+    function closePopup() {
+      const popupOverlay = document.getElementById("popupOverlay");
+      popupOverlay.style.display = "none";
+
+      // Redirect to the initial phase (reload the page)
+      window.location.reload();
+    }
+  </script>
 </body>
 </html>
