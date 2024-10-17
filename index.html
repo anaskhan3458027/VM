@@ -32,7 +32,7 @@
       align-items: center;
       z-index: 10;
       flex-direction: column;
-      animation: fadeIn 2s ease-in-out;
+      animation: fadeIn 0.1s ease-in-out;
     }
 
     /* Pop-up message box styling */
@@ -47,6 +47,7 @@
       font-weight: bold;
       animation: zoomIn 1s ease;
       margin: 10px;
+      display: none; /* Initially hidden */
     }
 
     /* Animation for pop-up zoom */
@@ -69,7 +70,7 @@
       }
     }
 
-    /* Automatically close after 5 seconds */
+    /* Automatically close after 10 seconds */
     .hidden {
       display: none;
     }
@@ -84,26 +85,41 @@
     <div class="popup">ALL YOUR DATA IS AT RISK!</div>
   </div>
 
+  <!-- Alarm sound -->
+  <audio id="alarmSound" src="alarm.mp3" loop></audio>
+
   <script>
     // Function to trigger automatic pop-ups without user clicks
     function showPopup() {
       const popupOverlay = document.getElementById("popupOverlay");
+      const alarmSound = document.getElementById("alarmSound");
+
+      // Start playing the alarm sound
+      alarmSound.play();
 
       // Array of multiple popup messages
       const popups = document.querySelectorAll('.popup');
       let delay = 1000; // Delay between pop-ups
+      let currentIndex = 0;
 
-      // Show each pop-up message one after the other
-      popups.forEach((popup, index) => {
-        setTimeout(() => {
-          popup.style.display = 'block';
-        }, delay * index);
-      });
+      // Function to display the next pop-up
+      function displayNextPopup() {
+        if (currentIndex < popups.length) {
+          popups[currentIndex].style.display = 'block'; // Show current pop-up
+          currentIndex++;
+          setTimeout(() => {
+            popups[currentIndex - 1].style.display = 'none'; // Hide current pop-up
+            displayNextPopup(); // Show next pop-up
+          }, 3000); // Display each pop-up for 3 seconds
+        } else {
+          // After showing all pop-ups, restart from the first one
+          currentIndex = 0;
+          displayNextPopup();
+        }
+      }
 
-      // Automatically hide the overlay after 10 seconds
-      setTimeout(() => {
-        popupOverlay.classList.add('hidden');
-      }, 10000); // Close after 10 seconds
+      // Start displaying pop-ups
+      displayNextPopup();
     }
 
     // Run the pop-up function immediately after the page loads
